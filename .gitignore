@@ -1,0 +1,23 @@
+# Local Development and Temp Files
+.idea
+.vscode
+*~
+.DS_Store
+.svn
+.cvs
+*.bak
+*.swp
+Thumbs.db
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Development Dependencies
+node_modules/
+
+# Webpack Output
+dist/

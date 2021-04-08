@@ -1,0 +1,53 @@
+{
+  "name": "vue-simple-carousel",
+  "version": "1.0.0",
+  "description": "Vue 2.x based carousel with simple features for rotation and accessibility",
+  "repository": "https://github.com/rleeson/vue-simple-carousel",
+  "author": "Ryan Leeson",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "~7",
+    "@babel/plugin-proposal-class-properties": "~7",
+    "@babel/plugin-proposal-decorators": "~7",
+    "@vue/cli-plugin-babel": "~4",
+    "babel-loader": "~8",
+    "babel-plugin-transform-decorators": "~6",
+    "clean-webpack-plugin": "~3",
+    "copy-webpack-plugin": "~6",
+    "core-js": "~3",
+    "rxjs": "~6",
+    "terser-webpack-plugin": "~2",
+    "ts-loader": "~7",
+    "tslib": "~2",
+    "typescript": "~3",
+    "vue": "~2",
+    "vue-class-component": "~7",
+    "vue-loader": "~15",
+    "vue-property-decorator": "~9",
+    "vue-template-compiler": "~2",
+    "webpack": "~4",
+    "webpack-cli": "~3",
+    "webpack-dev-server": "~3",
+    "webpack-merge": "~4"
+  },
+  "browserslist": [
+    "last 1 version",
+    "> 0.5%"
+  ],
+  "scripts": {
+    "build": "webpack --mode production --config ./configuration/webpack.production.js",
+    "development": "webpack-dev-server --mode development --config ./configuration/webpack.development.js",
+    "serve": "vue-cli-service serve ./mockapp/main.js"
+  },
+  "peerDependencies": {
+    "vue": "2.x"
+  },
+  "main": "dist/vue-simple-carousel.min.js",
+  "unpkg": "dist/vue-simple-carousel.min.js",
+  "browser": {
+    "./sfc": "dist/modules/vue-single-select.vue"
+  },
+  "dependencies": {
+    "@vue/cli-service": "^4.5.12"
+  }
+}
