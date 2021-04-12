@@ -32,8 +32,9 @@
                                 :class="play_control_classes"
                                 title="Pause carousel"
                             >
+                                <span>Pause</span>
                                 <span class="screen-reader-text"
-                                    >Pause carousel</span
+                                    >&nbsp;carousel</span
                                 >
                             </button>
                             <button
@@ -44,8 +45,9 @@
                                 :class="play_control_classes"
                                 title="Play carousel"
                             >
+                                <span>Play</span>
                                 <span class="screen-reader-text"
-                                    >Play carousel</span
+                                    >&nbsp;carousel</span
                                 >
                             </button>
                         </slot>
@@ -61,9 +63,14 @@
                                         :aria-label="indicatorTitle(index)"
                                         :title="indicatorTitle(index)"
                                     >
-                                        <span class="indicator-label">{{
-                                            indicatorTitle(index)
-                                        }}</span>
+                                        <span class="indicator-label">
+                                            <span class="screen-reader-text">
+                                                Advance to slide&nbsp;
+                                            </span>
+                                            <span class="slide-number">{{
+                                                index + 1
+                                            }}</span>
+                                        </span>
                                     </button>
                                 </li>
                             </ul>
