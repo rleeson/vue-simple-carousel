@@ -6,7 +6,8 @@
             </template>
             <div class="controls-parent">
                 <a
-                    class="skip-navigation"
+                    v-if="configuration.control_skip_link_anchor"
+                    class="skip-navigation screen-reader-text"
                     :href="configuration.control_skip_link_anchor"
                     >Skip article carousel controls, go to main content</a
                 >
@@ -212,7 +213,7 @@ export default class SimpleCarousel<T> extends Vue {
     }
 
     restartCarousel() {
-        this.configuration.auto_slide ? this.carouselPlay() : null;
+        false !== this.configuration.auto_slide ? this.carouselPlay() : null;
     }
 
     slideFrame(slide: T, index: number): CarouselSlide {
