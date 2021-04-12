@@ -62,8 +62,8 @@ import CarouselControls from "@/types/CarouselControls";
     },
 })
 export default class App extends Vue {
-    get sample_configuration(): CarouselOptions {
-        return <CarouselOptions>{
+    get sample_configuration(): CarouselOptions<MockSlide> {
+        return <CarouselOptions<MockSlide>>{
             slides: [
                 <MockSlide>{
                     cms_classes: "",
@@ -90,7 +90,7 @@ export default class App extends Vue {
         };
     }
 
-    slideNumber(controls: CarouselControls, index: number) {
+    slideNumber(controls: CarouselControls<MockSlide>, index: number) {
         const total_slides: number = controls.options.slides.length;
         let slide: number = index + 1;
 

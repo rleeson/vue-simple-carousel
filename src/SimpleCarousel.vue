@@ -108,24 +108,24 @@ const DEFAULT_SLIDE_INTERVAL: number = 5000;
 const MINIMUM_SLIDE_INTERVAL: number = 250;
 
 @Component({ components: {} })
-export default class SimpleCarousel extends Vue {
+export default class SimpleCarousel<T> extends Vue {
     @Prop({
         default: () =>
-            <CarouselOptions>{
+            <CarouselOptions<T>>{
                 auto_slide: true,
                 control_skip_link_anchor: "#main-content",
-                slides: new Array<any>(),
+                slides: new Array<T>(),
                 slide_interval: DEFAULT_SLIDE_INTERVAL,
             },
     })
-    configuration!: CarouselOptions;
+    configuration!: CarouselOptions<T>;
 
     current_index: number = 0;
 
     carousel_play: Subscription | null = null;
 
-    get controls(): CarouselControls {
-        return <CarouselControls>{
+    get controls(): CarouselControls<T> {
+        return <CarouselControls<T>>{
             advance_to_slide: this.advanceToSlide,
             current_index: this.current_index,
             next: this.slideNext,
@@ -134,7 +134,7 @@ export default class SimpleCarousel extends Vue {
         };
     }
 
-    get display_slides(): Array<any> {
+    get display_slides(): Array<T> {
         return this.configuration.slides;
     }
 
@@ -215,7 +215,7 @@ export default class SimpleCarousel extends Vue {
         this.configuration.auto_slide ? this.carouselPlay() : null;
     }
 
-    slideFrame(slide: any, index: number): CarouselSlide {
+    slideFrame(slide: T, index: number): CarouselSlide {
         return <CarouselSlide>{
             current_index: this.current_index,
             content: slide,

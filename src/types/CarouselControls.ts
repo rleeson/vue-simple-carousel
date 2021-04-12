@@ -1,10 +1,10 @@
 import CarouselOptions from "@/types/CarouselOptions";
 
-export default interface CarouselControls {
-  [index: string]: number | Function | CarouselOptions;
+export default interface CarouselControls<T> {
+  [index: string]: number | Function | CarouselOptions<T>;
 
   current_index: number;
-  options: CarouselOptions;
+  options: CarouselOptions<T>;
 
   advance_to_slide: (index: number) => void;
   next: () => void;
