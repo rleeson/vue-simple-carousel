@@ -3,6 +3,6 @@ export default interface CarouselOptions {
 
   auto_slide: boolean;
   control_skip_link_anchor: string;
-  posts: Array<any>;
+  slides: Array<any>;
   slide_interval: number;
 }

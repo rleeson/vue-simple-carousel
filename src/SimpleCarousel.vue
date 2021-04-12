@@ -1,15 +1,8 @@
 <template>
     <div class="post-carousel">
         <div class="carousel-inner">
-            <template v-for="(post, index) in display_posts">
-                <slot
-                    name="carousel-slide"
-                    :carousel-slide="{
-                        current_index: current_index,
-                        post: post,
-                        slide_count_index: index,
-                    }"
-                />
+            <template v-for="(slide, index) in display_slides">
+                <slot name="carousel-slide" :slide="slideFrame(slide, index)" />
             </template>
             <div class="controls-parent">
                 <a
@@ -18,18 +11,11 @@
                     >Skip article carousel controls, go to main content</a
                 >
                 <div class="controls-wrapper">
-                    <slot
-                        name="controls-left"
-                        :controls-left="{
-                            advance_to_slide: advanceToSlide,
-                            next: slideNext,
-                            previous: slidePrevious,
-                        }"
-                    >
+                    <slot name="controls-left" :controls="controls">
                         <button
-                            @click="slidePrevious()"
+                            @click.prevent="slidePrevious()"
                             class="slide-left"
-                            title="Previous article"
+                            title="Show previous article"
                         >
                             <span class="screen-reader-text"
                                 >Show previous article</span
@@ -37,65 +23,59 @@
                         </button>
                     </slot>
                     <div class="controls">
-                        <slot
-                            name="before-indicators"
-                            :before-indicators="{
-                                advance_to_slide: advanceToSlide,
-                                next: slideNext,
-                                previous: slidePrevious,
-                            }"
-                        >
+                        <slot name="before-indicators" :controls="controls">
                             <button
                                 v-if="is_carousel_playing"
-                                @click="carouselPause"
+                                @click.prevent="carouselPause"
+                                aria-label="Click to pause"
                                 class="carousel-play-pause"
                                 :class="play_control_classes"
-                                aria-label="Click to pause"
-                                title="Pause"
+                                title="Pause carousel"
                             >
                                 <span class="screen-reader-text"
-                                    >Pause Carousel</span
+                                    >Pause carousel</span
                                 >
                             </button>
                             <button
                                 v-else
-                                @click="carouselPlay"
+                                @click.prevent="carouselPlay"
+                                aria-label="Click to play"
                                 class="carousel-play-pause"
                                 :class="play_control_classes"
-                                aria-label="Click to play"
-                                title="Play"
+                                title="Play carousel"
                             >
                                 <span class="screen-reader-text"
-                                    >Play Carousel</span
+                                    >Play carousel</span
                                 >
                             </button>
                         </slot>
-                        <ul class="carousel-indicators">
-                            <li
-                                v-for="(post, index) in display_posts"
-                                @selectSlide="advanceToSlide(index)"
-                                @slideNext="slideNext()"
-                                @slidePrevious="slidePrevious()"
-                                :key="index"
-                                :current_index="current_index"
-                                :post="post"
-                                :slide_count_index="index"
-                            ></li>
-                        </ul>
-                        <slot name="after-indicators"> </slot>
+                        <slot name="indicators" :controls="controls">
+                            <ul class="carousel-indicators">
+                                <li
+                                    v-for="(slide, index) in display_slides"
+                                    :key="index"
+                                    :class="indicatorClasses(index)"
+                                >
+                                    <button
+                                        @click.prevent="advanceToSlide(index)"
+                                        :aria-label="indicatorTitle(index)"
+                                        :title="indicatorTitle(index)"
+                                    >
+                                        <span class="indicator-label">{{
+                                            indicatorTitle(index)
+                                        }}</span>
+                                    </button>
+                                </li>
+                            </ul>
+                        </slot>
+                        <slot name="after-indicators" :controls="controls">
+                        </slot>
                     </div>
-                    <slot
-                        name="controls-right"
-                        :controls-right="{
-                            advance_to_slide: advanceToSlide,
-                            next: slideNext,
-                            previous: slidePrevious,
-                        }"
-                    >
+                    <slot name="controls-right" :controls="controls">
                         <button
-                            @click="slideNext()"
+                            @click.prevent="slideNext()"
                             class="slide-right"
-                            title="Next article"
+                            title="Show next article"
                         >
                             <span class="screen-reader-text"
                                 >Show next article</span
@@ -112,7 +92,9 @@
 import { interval, Subscription } from "rxjs";
 import { Vue, Component, Prop } from "vue-property-decorator";
 
-import CarouselOptions from "@/configuration/CarouselOptions";
+import CarouselControls from "@/types/CarouselControls";
+import CarouselOptions from "@/types/CarouselOptions";
+import CarouselSlide from "@/types/CarouselSlide";
 
 const DEFAULT_SLIDE_INTERVAL: number = 5000;
 
@@ -125,7 +107,7 @@ export default class SimpleCarousel extends Vue {
             <CarouselOptions>{
                 auto_slide: true,
                 control_skip_link_anchor: "#main-content",
-                posts: new Array<any>(),
+                slides: new Array<any>(),
                 slide_interval: DEFAULT_SLIDE_INTERVAL,
             },
     })
@@ -135,8 +117,18 @@ export default class SimpleCarousel extends Vue {
 
     carousel_play: Subscription | null = null;
 
-    get display_posts(): Array<any> {
-        return this.configuration.posts;
+    get controls(): CarouselControls {
+        return <CarouselControls>{
+            advance_to_slide: this.advanceToSlide,
+            current_index: this.current_index,
+            next: this.slideNext,
+            options: this.configuration,
+            previous: this.slidePrevious,
+        };
+    }
+
+    get display_slides(): Array<any> {
+        return this.configuration.slides;
     }
 
     get is_carousel_playing(): boolean {
@@ -144,7 +136,7 @@ export default class SimpleCarousel extends Vue {
     }
 
     get maximum_index(): number {
-        return this.configuration.posts.length - 1;
+        return this.configuration.slides.length - 1;
     }
 
     get play_control_classes(): Array<string> {
@@ -152,7 +144,8 @@ export default class SimpleCarousel extends Vue {
     }
 
     get play_slide_interval(): number {
-        return MINIMUM_SLIDE_INTERVAL > this.configuration.slide_interval
+        return !this.configuration.slide_interval ||
+            MINIMUM_SLIDE_INTERVAL > this.configuration.slide_interval
             ? DEFAULT_SLIDE_INTERVAL
             : this.configuration.slide_interval;
     }
@@ -199,12 +192,28 @@ export default class SimpleCarousel extends Vue {
         this.clearCarousel();
     }
 
+    indicatorClasses(index: number): string | null {
+        return index === this.current_index ? "active" : null;
+    }
+
+    indicatorTitle(index: number): string {
+        return "Advance to slide " + (index + 1);
+    }
+
     mounted(): void {
         this.restartCarousel();
     }
 
     restartCarousel() {
         this.configuration.auto_slide ? this.carouselPlay() : null;
+    }
+
+    slideFrame(slide: any, index: number): CarouselSlide {
+        return <CarouselSlide>{
+            current_index: this.current_index,
+            content: slide,
+            slide_index: index,
+        };
     }
 
     slideNext(): void {
