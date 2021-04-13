@@ -19,14 +19,13 @@ module.exports = {
     path: paths.distribution,
     filename: "js/[name].js",
   },
-  externals: {
-    Vue: "vue",
-  },
   resolve: {
-    extensions: [".ts", ".js", ".vue", ".json"],
     alias: {
       "@": paths.source,
     },
+  },
+  externals: {
+    vue: "Vue",
   },
   module: {
     rules: [

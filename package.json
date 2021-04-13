@@ -2,7 +2,7 @@
   "name": "@rleeson/vue-simple-carousel",
   "description": "Vue 2.x based carousel with simple features for rotation and accessibility",
   "license": "MIT",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "author": "Ryan Leeson",
   "browser": {
     "./sfc": "dist/modules/vue-single-select.vue"
@@ -60,6 +60,6 @@
     "webpack-merge": "~4"
   },
   "peerDependencies": {
-    "vue": "2.x"
+    "vue": "~2"
   }
 }

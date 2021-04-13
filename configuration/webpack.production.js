@@ -8,6 +8,7 @@ module.exports = merge(common, {
   mode: "production",
   output: {
     filename: "js/[name].min.js",
+    libraryTarget: "umd",
   },
   optimization: {
     minimizer: [
