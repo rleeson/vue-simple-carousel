@@ -1,18 +1,31 @@
 {
-  "name": "vue-simple-carousel",
-  "version": "1.0.0",
+  "name": "@rleeson/vue-simple-carousel",
   "description": "Vue 2.x based carousel with simple features for rotation and accessibility",
+  "license": "MIT",
+  "version": "1.0.0",
   "author": "Ryan Leeson",
+  "browser": {
+    "./sfc": "dist/modules/vue-single-select.vue"
+  },
+  "browserslist": [
+    "last 1 version",
+    "> 0.5%"
+  ],
+  "bugs": {
+    "url": "https://github.com/rleeson/vue-simple-carousel/issues"
+  },
+  "homepage": "https://github.com/rleeson/vue-simple-carousel#readme",
+  "main": "dist/vue-simple-carousel.min.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rleeson/vue-simple-carousel.git"
+  },
+  "unpkg": "dist/vue-simple-carousel.min.js",
   "scripts": {
     "serve": "vue-cli-service serve ./mockapp/main.js",
     "build": "webpack --mode production --config ./configuration/webpack.production.js",
     "development": "webpack-dev-server --mode development --config ./configuration/webpack.development.js"
   },
-  "main": "dist/vue-simple-carousel.min.js",
-  "browser": {
-    "./sfc": "dist/modules/vue-single-select.vue"
-  },
-  "unpkg": "dist/vue-simple-carousel.min.js",
   "devDependencies": {
     "@babel/core": "~7",
     "@babel/plugin-proposal-class-properties": "~7",
@@ -44,11 +57,5 @@
   },
   "peerDependencies": {
     "vue": "2.x"
-  },
-  "browserslist": [
-    "last 1 version",
-    "> 0.5%"
-  ],
-  "license": "MIT",
-  "repository": "https://github.com/rleeson/vue-simple-carousel"
+  }
 }
