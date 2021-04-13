@@ -14,17 +14,21 @@
   "bugs": {
     "url": "https://github.com/rleeson/vue-simple-carousel/issues"
   },
+  "files": [
+    "dist"
+  ],
   "homepage": "https://github.com/rleeson/vue-simple-carousel#readme",
-  "main": "dist/vue-simple-carousel.min.js",
+  "main": "dist/js/vue-simple-carousel.min.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/rleeson/vue-simple-carousel.git"
   },
-  "unpkg": "dist/vue-simple-carousel.min.js",
+  "unpkg": "dist/js/vue-simple-carousel.min.js",
   "scripts": {
-    "serve": "vue-cli-service serve ./mockapp/main.js",
     "build": "webpack --mode production --config ./configuration/webpack.production.js",
-    "development": "webpack-dev-server --mode development --config ./configuration/webpack.development.js"
+    "development": "webpack-dev-server --mode development --config ./configuration/webpack.development.js",
+    "prepublish": "yarn build",
+    "serve": "vue-cli-service serve ./mockapp/main.js"
   },
   "devDependencies": {
     "@babel/core": "~7",
