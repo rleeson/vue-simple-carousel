@@ -108,7 +108,7 @@ const DEFAULT_SLIDE_INTERVAL: number = 5000;
 
 const MINIMUM_SLIDE_INTERVAL: number = 250;
 
-@Component({ components: {} })
+@Component
 export default class SimpleCarousel<T> extends Vue {
     @Prop({
         default: () =>
