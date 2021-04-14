@@ -1,8 +1,12 @@
 <template>
-    <div class="post-carousel">
+    <div class="carousel" :class="carousel_state_classes">
         <div class="carousel-inner">
             <template v-for="(slide, index) in display_slides">
-                <slot name="carousel-slide" :slide="slideFrame(slide, index)" />
+                <slot
+                    name="carousel-slide"
+                    :slide="slideFrame(slide, index)"
+                    :controls="controls"
+                />
             </template>
             <div class="controls-parent">
                 <a
@@ -30,7 +34,6 @@
                                 @click.prevent="carouselPause"
                                 aria-label="Click to pause"
                                 class="carousel-play-pause"
-                                :class="play_control_classes"
                                 title="Pause carousel"
                             >
                                 <span>Pause</span>
@@ -43,7 +46,6 @@
                                 @click.prevent="carouselPlay"
                                 aria-label="Click to play"
                                 class="carousel-play-pause"
-                                :class="play_control_classes"
                                 title="Play carousel"
                             >
                                 <span>Play</span>
@@ -65,9 +67,9 @@
                                         :title="indicatorTitle(index)"
                                     >
                                         <span class="indicator-label">
-                                            <span class="screen-reader-text">
-                                                Advance to slide&nbsp;
-                                            </span>
+                                            <span class="screen-reader-text"
+                                                >Advance to slide&nbsp;</span
+                                            >
                                             <span class="slide-number">{{
                                                 index + 1
                                             }}</span>
@@ -97,7 +99,7 @@
 </template>
 
 <script lang="ts">
-import { interval, Subscription } from "rxjs";
+import { interval, Subscription, using } from "rxjs";
 import { Vue, Component, Prop } from "vue-property-decorator";
 
 import CarouselControls from "@/types/CarouselControls";
@@ -116,8 +118,8 @@ export default class SimpleCarousel<T> extends Vue {
                 auto_slide: true,
                 control_skip_link_anchor: "#main-content",
                 slides: new Array<T>(),
-                slide_interval: DEFAULT_SLIDE_INTERVAL,
-            },
+                slide_interval: DEFAULT_SLIDE_INTERVAL
+            }
     })
     configuration!: CarouselOptions<T>;
 
@@ -125,13 +127,33 @@ export default class SimpleCarousel<T> extends Vue {
 
     carousel_play: Subscription | null = null;
 
+    get carousel_state_classes(): Array<string> {
+        let classes = new Array<string>();
+
+        classes.push(this.carousel_play ? "playing" : "stopped");
+
+        if (false !== this.configuration.auto_slide) {
+            classes.push("auto-slide");
+        }
+
+        if (0 === this.current_index) {
+            classes.push("slide-start");
+        }
+
+        if (this.configuration.slides.length - 1 === this.current_index) {
+            classes.push("slide-end");
+        }
+
+        return classes;
+    }
+
     get controls(): CarouselControls<T> {
         return <CarouselControls<T>>{
             advance_to_slide: this.advanceToSlide,
             current_index: this.current_index,
             next: this.slideNext,
             options: this.configuration,
-            previous: this.slidePrevious,
+            previous: this.slidePrevious
         };
     }
 
@@ -145,10 +167,6 @@ export default class SimpleCarousel<T> extends Vue {
 
     get maximum_index(): number {
         return this.configuration.slides.length - 1;
-    }
-
-    get play_control_classes(): Array<string> {
-        return this.is_carousel_playing ? ["play"] : ["pause"];
     }
 
     get play_slide_interval(): number {
@@ -216,11 +234,11 @@ export default class SimpleCarousel<T> extends Vue {
         false !== this.configuration.auto_slide ? this.carouselPlay() : null;
     }
 
-    slideFrame(slide: T, index: number): CarouselSlide {
-        return <CarouselSlide>{
+    slideFrame(slide: T, index: number): CarouselSlide<T> {
+        return <CarouselSlide<T>>{
             current_index: this.current_index,
             content: slide,
-            slide_index: index,
+            slide_index: index
         };
     }
 

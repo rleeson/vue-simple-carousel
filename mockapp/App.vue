@@ -58,8 +58,8 @@ import CarouselControls from "@/types/CarouselControls";
 
 @Component({
     components: {
-        SimpleCarousel,
-    },
+        SimpleCarousel
+    }
 })
 export default class App extends Vue {
     get sample_configuration(): CarouselOptions<MockSlide> {
@@ -70,23 +70,23 @@ export default class App extends Vue {
                     id: 1,
                     title: "Long article title",
                     subtitle:
-                        "More information about this article, a very long article.",
+                        "More information about this article, a very long article."
                 },
                 <MockSlide>{
                     cms_classes: "special-format",
                     id: 2,
                     title: "Medium article title",
                     subtitle:
-                        "More information about this article, of medium length.",
+                        "More information about this article, of medium length."
                 },
                 <MockSlide>{
                     cms_classes: "short-format custom-class",
                     id: 3,
                     title: "Medium article title too",
                     subtitle:
-                        "More information about this article, of medium length again.",
-                },
-            ],
+                        "More information about this article, of medium length again."
+                }
+            ]
         };
     }
 
@@ -103,7 +103,7 @@ export default class App extends Vue {
         return slide;
     }
 
-    slideClasses(slide: CarouselSlide) {
+    slideClasses(slide: CarouselSlide<MockSlide>) {
         let classes: string[] = [];
 
         if (slide.current_index === slide.slide_index) {
@@ -152,7 +152,7 @@ body {
 .mock-carousel {
     background: #2b2b2b;
 }
-.post-carousel {
+.carousel {
     margin: 0 1rem;
     padding: 1rem 0;
     position: relative;

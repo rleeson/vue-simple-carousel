@@ -28,13 +28,13 @@ body {
 .mock-carousel {
   background: #2b2b2b;
 }
-.post-carousel {
+.carousel {
   margin: 0 1rem;
   padding: 1rem 0;
   position: relative;
 }
 @media (min-width: 1200px) {
-  .post-carousel {
+  .carousel {
     margin: 0 auto;
     max-width: 1200px;
   }
