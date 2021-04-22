@@ -1,13 +1,15 @@
 <template>
     <div class="carousel" :class="carousel_state_classes">
         <div class="carousel-inner">
-            <template v-for="(slide, index) in display_slides">
-                <slot
-                    name="carousel-slide"
-                    :slide="slideFrame(slide, index)"
-                    :controls="controls"
-                />
-            </template>
+            <div class="slides-container">
+                <template v-for="(slide, index) in display_slides">
+                    <slot
+                        name="carousel-slide"
+                        :slide="slideFrame(slide, index)"
+                        :controls="controls"
+                    />
+                </template>
+            </div>
             <div class="controls-parent">
                 <a
                     v-if="configuration.control_skip_link_anchor"
