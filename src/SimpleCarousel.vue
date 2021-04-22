@@ -1,6 +1,19 @@
 <template>
     <div class="carousel" :class="carousel_state_classes">
         <div class="carousel-inner">
+            <!-- previous -->
+            <slot name="controls-left" :controls="controls">
+                <button
+                    @click.prevent="slidePrevious()"
+                    class="slide-left"
+                    title="Show previous article"
+                >
+                    <span class="screen-reader-text"
+                        >Show previous article</span
+                    >
+                </button>
+            </slot>
+            <!-- slides -->
             <div class="slides-container">
                 <template v-for="(slide, index) in display_slides">
                     <slot
@@ -10,6 +23,7 @@
                     />
                 </template>
             </div>
+            <!-- indicators -->
             <div class="controls-parent">
                 <a
                     v-if="configuration.control_skip_link_anchor"
@@ -18,17 +32,6 @@
                     >Skip article carousel controls, go to main content</a
                 >
                 <div class="controls-wrapper">
-                    <slot name="controls-left" :controls="controls">
-                        <button
-                            @click.prevent="slidePrevious()"
-                            class="slide-left"
-                            title="Show previous article"
-                        >
-                            <span class="screen-reader-text"
-                                >Show previous article</span
-                            >
-                        </button>
-                    </slot>
                     <div class="controls">
                         <slot name="before-indicators" :controls="controls">
                             <button
@@ -83,19 +86,20 @@
                         <slot name="after-indicators" :controls="controls">
                         </slot>
                     </div>
-                    <slot name="controls-right" :controls="controls">
-                        <button
-                            @click.prevent="slideNext()"
-                            class="slide-right"
-                            title="Show next article"
-                        >
-                            <span class="screen-reader-text"
-                                >Show next article</span
-                            >
-                        </button>
-                    </slot>
                 </div>
             </div>
+            <!-- next -->
+            <slot name="controls-right" :controls="controls">
+                <button
+                    @click.prevent="slideNext()"
+                    class="slide-right"
+                    title="Show next article"
+                >
+                    <span class="screen-reader-text"
+                        >Show next article</span
+                    >
+                </button>
+            </slot>
         </div>
     </div>
 </template>
