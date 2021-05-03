@@ -1,13 +1,17 @@
 <template>
     <div class="carousel" :class="carousel_state_classes">
         <div class="carousel-inner">
-            <template v-for="(slide, index) in display_slides">
-                <slot
-                    name="carousel-slide"
-                    :slide="slideFrame(slide, index)"
-                    :controls="controls"
-                />
-            </template>
+            <div class="slides-wrapper">
+                <slot name="pre-slides" :controls="controls"></slot>
+                <template v-for="(slide, index) in display_slides">
+                    <slot
+                        name="carousel-slide"
+                        :slide="slideFrame(slide, index)"
+                        :controls="controls"
+                    />
+                </template>
+                <slot name="post-slides" :controls="controls"></slot>
+            </div>
             <div class="controls-parent">
                 <a
                     v-if="configuration.control_skip_link_anchor"
@@ -18,7 +22,7 @@
                 <div class="controls-wrapper">
                     <slot name="controls-left" :controls="controls">
                         <button
-                            @click.prevent="slidePrevious()"
+                            @click.prevent="controls.previous()"
                             class="slide-left"
                             title="Show previous article"
                         >
@@ -30,8 +34,8 @@
                     <div class="controls">
                         <slot name="before-indicators" :controls="controls">
                             <button
-                                v-if="is_carousel_playing"
-                                @click.prevent="carouselPause"
+                                v-if="controls.is_playing"
+                                @click.prevent="controls.pause()"
                                 aria-label="Click to pause"
                                 class="carousel-play-pause"
                                 title="Pause carousel"
@@ -43,7 +47,7 @@
                             </button>
                             <button
                                 v-else
-                                @click.prevent="carouselPlay"
+                                @click.prevent="controls.play()"
                                 aria-label="Click to play"
                                 class="carousel-play-pause"
                                 title="Play carousel"
@@ -62,7 +66,9 @@
                                     :class="indicatorClasses(index)"
                                 >
                                     <button
-                                        @click.prevent="advanceToSlide(index)"
+                                        @click.prevent="
+                                            controls.advance_to_slide(index)
+                                        "
                                         :aria-label="indicatorTitle(index)"
                                         :title="indicatorTitle(index)"
                                     >
@@ -78,12 +84,14 @@
                                 </li>
                             </ul>
                         </slot>
-                        <slot name="after-indicators" :controls="controls">
-                        </slot>
+                        <slot
+                            name="after-indicators"
+                            :controls="controls"
+                        ></slot>
                     </div>
                     <slot name="controls-right" :controls="controls">
                         <button
-                            @click.prevent="slideNext()"
+                            @click.prevent="controls.next()"
                             class="slide-right"
                             title="Show next article"
                         >
@@ -99,7 +107,7 @@
 </template>
 
 <script lang="ts">
-import { interval, Subscription, using } from "rxjs";
+import { interval, Subscription } from "rxjs";
 import { Vue, Component, Prop } from "vue-property-decorator";
 
 import CarouselControls from "@/types/CarouselControls";
@@ -151,8 +159,11 @@ export default class SimpleCarousel<T> extends Vue {
         return <CarouselControls<T>>{
             advance_to_slide: this.advanceToSlide,
             current_index: this.current_index,
+            is_playing: this.is_carousel_playing,
             next: this.slideNext,
             options: this.configuration,
+            pause: this.carouselPause,
+            play: this.carouselPlay,
             previous: this.slidePrevious
         };
     }

@@ -1,12 +1,15 @@
 import CarouselOptions from "@/types/CarouselOptions";
 
 export default interface CarouselControls<T> {
-  [index: string]: number | Function | CarouselOptions<T>;
+  [index: string]: boolean | number | Function | CarouselOptions<T>;
 
   current_index: number;
+  is_playing: boolean;
   options: CarouselOptions<T>;
 
   advance_to_slide: (index: number) => void;
   next: () => void;
+  pause: () => void;
+  play: () => void;
   previous: () => void;
 }
