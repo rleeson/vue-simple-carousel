@@ -5,6 +5,7 @@ export default interface CarouselControls<T> {
 
   current_index: number;
   is_playing: boolean;
+  maximum_index: number;
   options: CarouselOptions<T>;
 
   advance_to_slide: (index: number) => void;

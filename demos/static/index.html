@@ -10,38 +10,43 @@
 <body>
     <div id="app" class="mock-carousel">
         <simple-carousel :configuration="demo_configuration">
-            <template slot="carousel-slide" slot-scope="{ slide }">
-                <article class="slide" :class="slideClasses(slide)">
-                    <h1>{{ slide.content.title }}</h1>
-                    <div class=" meta">
-                        <span>Slide number: {{ slide.slide_index + 1 }}</span>
-                        <span>Current index: {{ slide.current_index }}</span>
-                        <span>Slide index: {{ slide.slide_index }}</span>
-                    </div>
-                    <p class="subtitle">{{ slide.content.subtitle }}</p>
-                </article>
+            <template slot="carousel-slides">
+                <carousel-slides>
+                    <template slot-scope="{ slide }">
+                        <article class="slide" :class="slideClasses(slide)">
+                            <h1>{{ slide.content.title }}</h1>
+                            <div class=" meta">
+                                <span>Slide number: {{ slide.slide_index + 1 }}</span>
+                                <span>Current index: {{ slide.current_index }}</span>
+                                <span>Slide index: {{ slide.slide_index }}</span>
+                            </div>
+                            <p class="subtitle">{{ slide.content.subtitle }}</p>
+                        </article>
+                    </template>
+                    <template slot="before-slides">
+                        <carousel-previous-button>
+                            <span class="screen-reader-text">Show previous slide</span>
+                            <span>&larr;</span>
+                        </carousel-previous-button>
+                    </template>
+                    <template slot="after-slides">
+                        <carousel-next-button>
+                            <span class="screen-reader-text">Show next slide</span>
+                            <span>&rarr;</span>
+                        </carousel-next-button>
+                    </template>
+                </carousel-slides>
             </template>
-            <template slot="controls-left" slot-scope="{ controls }">
-                <button @click.prevent="controls.advance_to_slide(controls.current_index - 1)" class="slide-left"
-                    title="Show previous slide">
-                    <span class="screen-reader-text">Show previous slide (#{{ slideNumber(controls,
-                        controls.current_index - 1)}})</span>
-                    <span>&larr;</span>
-                </button>
+            <template slot="controls-left">
+                <empty />
             </template>
-            <template slot="controls-right" slot-scope="{ controls }">
-                <button @click.prevent="
-                                    controls.advance_to_slide(controls.current_index + 1)
-                                " class="slide-right" title="Show next slide">
-                    <span class="screen-reader-text">Show next slide (#{{
-                        slideNumber(controls, controls.current_index + 1)
-                        }})</span>
-                    <span>&rarr;</span>
-                </button>
+            <template slot="controls-right">
+                <empty />
             </template>
         </simple-carousel>
     </div>
     <script type="text/javascript" src="https://unpkg.com/vue@2/dist/vue.min.js"></script>
+    <!--script type="text/javascript" src="../../dist/js/vue-simple-carousel.min.js"></script-->
     <script type="text/javascript" src="https://unpkg.com/@rleeson/vue-simple-carousel"></script>
     <script type="text/javascript" src="main.js"></script>
 </body>

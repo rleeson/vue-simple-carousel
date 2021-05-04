@@ -12,37 +12,13 @@
                     <p class="subtitle">{{ slide.content.subtitle }}</p>
                 </article>
             </template>
-            <template slot="controls-left" slot-scope="{ controls }">
-                <button
-                    @click.prevent="
-                        controls.advance_to_slide(controls.current_index - 1)
-                    "
-                    class="slide-left"
-                    title="Show previous slide"
-                >
-                    <span class="screen-reader-text"
-                        >Show previous slide (#{{
-                            slideNumber(controls, controls.current_index - 1)
-                        }})</span
-                    >
-                    <span>&larr;</span>
-                </button>
+            <template slot="controls-left-button-text">
+                <span class="screen-reader-text">Show previous slide</span>
+                <span>&larr;</span>
             </template>
-            <template slot="controls-right" slot-scope="{ controls }">
-                <button
-                    @click.prevent="
-                        controls.advance_to_slide(controls.current_index + 1)
-                    "
-                    class="slide-right"
-                    title="Show next slide"
-                >
-                    <span class="screen-reader-text"
-                        >Show next slide (#{{
-                            slideNumber(controls, controls.current_index + 1)
-                        }})</span
-                    >
-                    <span>&rarr;</span>
-                </button>
+            <template slot="controls-right-button-text">
+                <span class="screen-reader-text">Show next slide</span>
+                <span>&rarr;</span>
             </template>
         </SimpleCarousel>
     </section>
@@ -52,12 +28,14 @@
 import { Vue, Component } from "vue-property-decorator";
 import CarouselOptions from "@/types/CarouselOptions";
 import CarouselSlide from "@/types/CarouselSlide";
+import Empty from "@/components/Empty";
 import MockSlide from "./types/MockSlide";
 import SimpleCarousel from "@/SimpleCarousel.vue";
 import CarouselControls from "@/types/CarouselControls";
 
 @Component({
     components: {
+        Empty,
         SimpleCarousel
     }
 })

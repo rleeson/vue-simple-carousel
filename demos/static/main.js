@@ -26,31 +26,33 @@ var app = new Vue({
           },
         ],
       },
-      slideClasses: (slide) => {
-        var classes = [];
-
-        if (slide.current_index === slide.slide_index) {
-          classes.push("active");
-        }
-
-        if ("" !== slide.content.cms_classes) {
-          classes.push(slide.content.cms_classes);
-        }
-
-        return classes;
-      },
-      slideNumber(controls, index) {
-        var total_slides = controls.options.slides.length;
-        var slide = index + 1;
-
-        if (0 > index) {
-          slide = total_slides;
-        } else if (index > total_slides - 1) {
-          slide = 1;
-        }
-
-        return slide;
-      },
     };
+  },
+  methods: {
+    slideClasses: (slide) => {
+      var classes = [];
+
+      if (slide.current_index === slide.slide_index) {
+        classes.push("active");
+      }
+
+      if ("" !== slide.content.cms_classes) {
+        classes.push(slide.content.cms_classes);
+      }
+
+      return classes;
+    },
+    slideNumber(controls, index) {
+      var total_slides = controls.options.slides.length;
+      var slide = index + 1;
+
+      if (0 > index) {
+        slide = total_slides;
+      } else if (index > total_slides - 1) {
+        slide = 1;
+      }
+
+      return slide;
+    },
   },
 });
