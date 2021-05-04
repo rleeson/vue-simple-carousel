@@ -67,6 +67,7 @@ Below is shown an example using a Vue SFC, where the T is defined as MockSlide:
 The other optional configuration elements are as follows:
 
 - Auto Slide (`auto_slide: boolean = true`): Set false to disable automatic slide rotation, otherwise rotation occurs
+- Pause Rotation on Control Interaction (`pause_on_control_interaction = true`): When enabled, control (indicators, next, previous) interaction pauses rotation
 - Skip Link Anchor (`control_skip_link_anchor: string = "#main-content"`): Anchor link placed before the controls for keyboard and screen reader access to skip the carousel controls to a defined anchor on the page. Set blank to remove the link.
 - Slide Interval: (`slide_interval: number = 5000`): Time in milliseconds between slide rotations, internally, the component enforces a minimum of 250ms
 
