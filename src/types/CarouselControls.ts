@@ -7,6 +7,7 @@ export default interface CarouselControls<T> {
   is_playing: boolean;
   maximum_index: number;
   options: CarouselOptions<T>;
+  pause_on_control_interaction: boolean;
 
   advance_to_slide: (index: number) => void;
   next: () => void;

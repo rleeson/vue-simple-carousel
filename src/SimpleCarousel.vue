@@ -79,6 +79,7 @@ export default class SimpleCarousel<T> extends Vue {
             <CarouselOptions<T>>{
                 auto_slide: true,
                 control_skip_link_anchor: "#main-content",
+                pause_on_control_interaction: true,
                 slides: new Array<T>(),
                 slide_interval: DEFAULT_SLIDE_INTERVAL
             }
@@ -119,6 +120,7 @@ export default class SimpleCarousel<T> extends Vue {
             next: this.slideNext,
             options: this.configuration,
             pause: this.carouselPause,
+            pause_on_control_interaction: this.pause_on_control_interaction,
             play: this.carouselPlay,
             previous: this.slidePrevious
         };
@@ -131,6 +133,10 @@ export default class SimpleCarousel<T> extends Vue {
     @ProvideReactive()
     get slides(): Array<T> {
         return this.configuration.slides ?? new Array<T>();
+    }
+
+    get pause_on_control_interaction(): boolean {
+        return this.configuration.pause_on_control_interaction ?? true;
     }
 
     get play_slide_interval(): number {

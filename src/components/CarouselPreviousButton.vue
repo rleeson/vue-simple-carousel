@@ -1,6 +1,6 @@
 <template>
     <button
-        @click.prevent="controls.previous()"
+        @click.prevent="previous"
         class="slide-left"
         title="Show previous slide"
     >
@@ -24,5 +24,13 @@ export default class CarouselPreviousButton<T> extends Vue {
             }
     })
     readonly controls!: CarouselControls<T>;
+
+    previous() {
+        if (this.controls.pause_on_control_interaction) {
+            this.controls.pause();
+        }
+
+        this.controls.previous();
+    }
 }
 </script>

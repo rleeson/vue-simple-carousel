@@ -42,6 +42,7 @@ if (GlobalVue) {
 
 // Standard module (npm/webpack/etc.) export
 export default SimpleCarousel;
+export { default as CarouselIndicators } from "./src/components/CarouselIndicators.vue";
 export { default as CarouselNextButton } from "./src/components/CarouselNextButton.vue";
 export { default as CarouselPlayButton } from "./src/components/CarouselPlayButton.vue";
 export { default as CarouselPreviousButton } from "./src/components/CarouselPreviousButton.vue";

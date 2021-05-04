@@ -1,9 +1,5 @@
 <template>
-    <button
-        @click.prevent="controls.next()"
-        class="slide-right"
-        title="Show next slide"
-    >
+    <button @click.prevent="next" class="slide-right" title="Show next slide">
         <slot>
             <span class="screen-reader-text">Show next slide</span>
         </slot>
@@ -24,5 +20,13 @@ export default class CarouselNextButton<T> extends Vue {
             }
     })
     readonly controls!: CarouselControls<T>;
+
+    next() {
+        if (this.controls.pause_on_control_interaction) {
+            this.controls.pause();
+        }
+
+        this.controls.next();
+    }
 }
 </script>
